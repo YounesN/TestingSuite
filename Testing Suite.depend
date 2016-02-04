@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1454553527 source:c:\users\younes\desktop\testingsuite\testingsuite\main.cpp
+	<iostream>
+	<unistd.h>
+	<sys/stat.h>
+	<dirent.h>
+	<sys/types.h>
+	<stdio.h>
+	<string.h>
+	<vector>
+

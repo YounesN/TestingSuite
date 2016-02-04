@@ -10,13 +10,6 @@
 
 using namespace std;
 
-void replace_char(string &str, char old, char new)
-{
-    int pos;
-    while((pos = str.find_first_of(old)) != string::npos)
-        str[pos] = new;
-}
-
 void copyexec(vector<string> &dirlist)
 {
     vector<string>::iterator iter;
@@ -27,28 +20,24 @@ void copyexec(vector<string> &dirlist)
         full_path_name[pos] = 0;
         if(full_path_name.find("GEMC") != string::npos)
         {
-            replace_char(full_path_name, '/', '\\');
-            cout << full_path_name << endl;
-            string command = "copy executable\\GOMC_Serial_GEMC " + full_path_name;
+            string command = "cp executable/GOMC_Serial_GEMC " + full_path_name;
             cout << command <<endl;
             system(command.c_str());
             full_path_name += "/GOMC_Serial_GEMC";
         }
         else if(full_path_name.find("GCMC") != string::npos)
         {
-            full_path_name.replace(0, -1, "/", "\\");
-            string command = "copy executable\\GOMC_Serial_GCMC " + full_path_name;
+            string command = "cp executable/GOMC_Serial_GCMC " + full_path_name;
             cout << command <<endl;
             system(command.c_str());
-            full_path_name += "GOMC_Serial_GCMC";
+            full_path_name += "/GOMC_Serial_GCMC";
         }
         else if(full_path_name.find("NVT") != string::npos)
         {
-            full_path_name.replace(0, -1, "/", "\\");
-            string command = "copy executable\\GOMC_Serial_NVT " + full_path_name;
+            string command = "cp executable/GOMC_Serial_NVT " + full_path_name;
             cout << command <<endl;
             system(command.c_str());
-            full_path_name += "GOMC_Serial_NVT";
+            full_path_name += "/GOMC_Serial_NVT";
         }
         *iter = full_path_name;
     }

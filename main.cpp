@@ -10,6 +10,56 @@
 
 using namespace std;
 
+void delete_files(vector<string> &dirlist)
+{
+    vector<string>::iterator iter;
+    cout << "Deleting...";
+    for(iter=dirlist.begin(); iter!=dirlist.end(); iter++)
+    {
+        string full_path_name = *iter;
+        string command = "rm -f " + full_path_name;
+        system(command.c_str());
+    }
+    cout << "Done!" << endl;
+}
+
+void exec(vector<string> &dirlist)
+{
+    vector<string>::iterator iter;
+    int len = dirlist.size();
+    int i;
+    for(i=0, iter=dirlist.begin(); iter!=dirlist.end(); i++, iter++)
+    {
+        string full_path_name = *iter;
+        string directory;
+        string command, commandcd;
+        string exec;
+
+        int pos = full_path_name.find_last_of('/');
+        directory = full_path_name.substr(0, pos);
+        exec = full_path_name.substr(pos+1);
+
+        cout << "Running " << i+1 << "/" << len << "...";
+        commandcd = "cd " + directory + ";";
+        cout << "\n" << command << endl;
+        command = commandcd + "sudo ./" + exec;
+        system(command.c_str());
+        cout << "Done!" << endl;
+    }
+}
+
+bool checkpermission(vector<string> &dirlist)
+{
+    vector<string>::iterator iter;
+    for(iter=dirlist.begin(); iter!=dirlist.end(); iter++)
+    {
+        string full_path_name = *iter;
+        if(chmod(full_path_name.c_str(), S_IXGRP) == -1)
+            return false;
+    }
+    return true;
+}
+
 void copyexec(vector<string> &dirlist)
 {
     vector<string>::iterator iter;
@@ -17,25 +67,22 @@ void copyexec(vector<string> &dirlist)
     {
         string full_path_name = *iter;
         int pos = full_path_name.find_last_of('/');
-        full_path_name[pos] = 0;
+        full_path_name = full_path_name.substr(0, pos);
         if(full_path_name.find("GEMC") != string::npos)
         {
             string command = "cp executable/GOMC_Serial_GEMC " + full_path_name;
-            cout << command <<endl;
             system(command.c_str());
             full_path_name += "/GOMC_Serial_GEMC";
         }
         else if(full_path_name.find("GCMC") != string::npos)
         {
             string command = "cp executable/GOMC_Serial_GCMC " + full_path_name;
-            cout << command <<endl;
             system(command.c_str());
             full_path_name += "/GOMC_Serial_GCMC";
         }
         else if(full_path_name.find("NVT") != string::npos)
         {
             string command = "cp executable/GOMC_Serial_NVT " + full_path_name;
-            cout << command <<endl;
             system(command.c_str());
             full_path_name += "/GOMC_Serial_NVT";
         }
@@ -107,9 +154,29 @@ int main( int argc, char *argv[] )
         cout << "\tExample: \"inputs/justanotherfolderwithdifferentname\" works as well.\n";
         return 0;
     }
-    listdir(directory_list, "inputs");
-    copyexec(directory_list);
 
+    cout << "Listing test cases...";
+    listdir(directory_list, "inputs");
+    cout << "Done!" << endl;
+    cout << "Found " << directory_list.size() << " cases!" << endl;
+    cout << "Copying binary files...";
+    //delete_files(directory_list);
+    copyexec(directory_list);
+    cout << "Done!" << endl;
+    cout << "Checking execution permission...";
+    if(!checkpermission(directory_list))
+    {
+        cout << "\nCouldn't change the mode of the file. Executing will fail.";
+        cout << "Please give your files execution permission manually or run this program as sudo.\n";
+        return 0;
+    }
+    cout << "Done!" << endl;
+    cout << "Starting to execute simulations..." << endl;
+    exec(directory_list);
+    cout << "Execution is done!" << endl;
+
+    // temporary function
+    //delete_files(directory_list);
     /*vector<string>::iterator iter;
     for(iter=directory_list.begin(); iter!=directory_list.end();iter++)
         cout << *iter << endl;*/

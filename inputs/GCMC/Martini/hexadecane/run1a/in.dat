@@ -78,8 +78,8 @@ Dielectric      15.0
 ################################
 # STEPS 
 ################################
-RunSteps           20000000      
-EqSteps		   5000000       
+RunSteps           1000000      
+EqSteps		   100000       
 AdjSteps	   1000        
 
 ################################
@@ -125,8 +125,8 @@ OutputName  T_650_K_u_5500_r1a_v
 #####################################
 # enable, frequency           
 #####################################
-CoordinatesFreq    true   10000000
-RestartFreq  	   true   10000000
+CoordinatesFreq    true   100000
+RestartFreq  	   true   100000
 ConsoleFreq        true   100000
 BlockAverageFreq   true   100000
 FluctuationFreq    true   10000

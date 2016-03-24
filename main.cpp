@@ -114,6 +114,70 @@ void listdir(vector<string> &out, const string &dname)
     closedir(dir);
 }
 
+bool compare(vector<string> &out, const string &dname)
+{
+    DIR *dir;
+    struct dirent *ent;
+    struct stat st;
+
+    dir = opendir(dname.c_str());
+    while((ent = readdir(dir)) != NULL)
+    {
+        const string file_name = ent->d_name;
+        const string full_file_name = dname + "/" + file_name;
+        if (file_name == "GOMC_Serial_NVT" ||
+            file_name == "GOMC_Serial_GCMC" ||
+            file_name == "GOMC_Serial_GEMC")
+            continue;
+        if(file_name[0] == '.')
+            continue;
+        if(stat(full_file_name.c_str(), &st) == -1)
+            continue;
+        const bool is_directory = (st.st_mode & S_IFDIR) != 0;
+        if(is_directory)
+            compare(out, dname + "/" + file_name);
+        else
+        {
+            char ch1, ch2;
+            int flag = 0;
+
+            FILE * fi;
+            FILE * fo;
+            fi = fopen(full_file_name.c_str(), "r");
+            string original_file = full_file_name;
+            int pos = original_file.find("tmp");
+            original_file.replace(pos, 3, "output");
+            fo = fopen(original_file.c_str(), "r");
+            if(!fi)
+            {
+                cout << "Cannot open file for comparison: " << full_file_name << endl;
+                exit(0);
+            }
+            if(!fo)
+            {
+                cout << "Cannot open file for comparison: " << original_file << endl;
+                exit(0);
+            }
+
+            while (((ch1 = fgetc(fi)) != EOF) &&((ch2 = fgetc(fo)) != EOF))
+            {
+                if (ch1 == ch2) {
+                    flag = 1;
+                    continue;
+                }
+                else {
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag == 0)
+                return false;
+        }
+    }
+    return true;
+    closedir(dir);
+}
+
 bool file_exists(char const *fname)
 {
     if(access(fname, F_OK) != -1)
@@ -155,8 +219,11 @@ int main( int argc, char *argv[] )
         return 0;
     }
 
+    system("mkdir tmp");
+    system("cp -r inputs/* tmp/");
+
     cout << "Listing test cases...";
-    listdir(directory_list, "inputs");
+    listdir(directory_list, "tmp");
     cout << "Done!" << endl;
     cout << "Found " << directory_list.size() << " cases!" << endl;
     cout << "Copying binary files...";
@@ -175,10 +242,10 @@ int main( int argc, char *argv[] )
     exec(directory_list);
     cout << "Execution is done!" << endl;
 
-    // temporary function
-    //delete_files(directory_list);
-    /*vector<string>::iterator iter;
-    for(iter=directory_list.begin(); iter!=directory_list.end();iter++)
-        cout << *iter << endl;*/
+    if(compare(directory_list, "tmp"))
+        cout << "Great News... Everything matches!" << endl;
+    else
+        cout << "Bad News... Unfortunately something didn't match!" << endl;
+    system("rm -rf tmp");
     return 0;
 }

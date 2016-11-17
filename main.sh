@@ -33,7 +33,7 @@ fi
 
 echo -e "Listing test cases..."
 directories=()
-find -name "in.dat" -printf '%h\n' | sort -u > tmpfile
+find ./input -name "in.dat" -printf '%h\n' | sort -u > tmpfile
 while IFS= read -r -d $'\n'; do
     directories+=("$REPLY")
 done < tmpfile
@@ -55,4 +55,29 @@ do
 	exit
     fi
 done
+
+echo -e "Listing binary files to run..."
+binaries=()
+find ./input -name "GOMC_Serial_*" -print | sort -u > tmpfile
+while IFS= read -r -d $'\n'; do
+    binaries+=("$REPLY")
+done < tmpfile
+rm -rf tmpfile
+echo -e "Found ${#binaries[@]} executables."
+echo -e "Running executables now..."
+k=1
+for i in "${binaries[@]}"
+do
+    root=`pwd`
+    directory=`dirname $i`
+    filename=`basename $i`
+    cd $directory
+    echo -e "Changed directory to" `pwd`
+    ./$filename in.dat > $k.log
+    echo -e "$k/${#binaries[@]} done."
+    k=$(($k+1))
+    cd $root
+    echo -e "Changed directory to" `pwd`
+done
+
 echo "Success!"

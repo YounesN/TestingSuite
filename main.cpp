@@ -205,10 +205,10 @@ int main( int argc, char *argv[] )
     {
         cout << "[ERROR] Cannot find all required executables.\n";
         cout << "\tMake sure you copy your executables into the \"executable\" folder and then run this program.\n";
-        cout << "\tWe need the following executables:";
-        cout << "\n\t* GOMC_Serial_GCMC";
-        cout << "\n\t* GOMC_Serial_NVT";
-        cout << "\n\t* GOMC_Serial_GEMC";
+        cout << "\tWe need the following executables:\n";
+        cout << "\t* GOMC_Serial_GCMC\n";
+        cout << "\t* GOMC_Serial_NVT\n";
+        cout << "\t* GOMC_Serial_GEMC\n";
         return 0;
     }
     if(!directory_exists("inputs"))

@@ -93,6 +93,13 @@ do
     fi
 done
 
+echo -e "Changing Random Seed to Int Seed"
+for i in  "${directories[@]}"
+do
+    sed -i -e 's/RANDOM/INTSEED/g' "$i/in.conf"
+    echo "Random_Seed 50" >> "$i/in.conf"
+done
+
 echo -e "Listing binary files to run..."
 binaries=()
 find ./input -name "GOMC_*" -print | sort -u > tmpfile

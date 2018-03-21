@@ -18,7 +18,19 @@ cd GOMC_Examples
 echo -e "====  Making sure we are on master branch"
 git checkout master
 cd ..
+echo -e "====  Replace Random seed with INTSEED"
+directories=()
+find ./GOMC_Examples -name "in.conf" -printf '%h\n' | sort -u > tmpfile
+while IFS= read -r -d $'\n'; do
+    directories+=("$REPLY")
+done < tmpfile
+rm -rf tmpfile
 
+for i in "${directories[@]}"
+do
+    sed -i 's/RANDOM/INTSEED/g' $i/in.conf
+    printf "\n\nRandom_Seed\t50\n\n" >> $i/in.conf
+done
 ###############################################################################
 echo -e "====  Removing .git folder first"
 rm -rf ./GOMC_Examples/.git

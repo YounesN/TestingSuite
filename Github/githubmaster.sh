@@ -3,7 +3,7 @@ echo -e "====  Cloning Github Repository"
 git clone https://github.com/GOMC-WSU/GOMC
 cd GOMC
 echo -e "====  Making sure we are on master branch"
-git checkout master
+git checkout development
 echo -e "====  Load CUDA and Intel modules"
 module load cuda-8.0/compiler-gpu
 module load intel-16/compiler

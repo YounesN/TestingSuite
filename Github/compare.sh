@@ -16,15 +16,12 @@ do
     if [[ $diffwithopenmp = *"MOVE_0"* ]]; then
 	echo -e "OpenMP is different:"
 	echo -e "You may want to check $i"
-	#echo -e "I put the diff log in $k.log"
-	#echo $diffwithopenmp >> $k.log
-	#k=$(($k+1))
     fi
     if [[ $diffwithgpu = *"MOVE_0"* ]]; then
 	echo -e "GPU is different:"
 	echo -e "You may want to check $i"
-	#echo -e "I put the diff log in $k.log"
-	#echo $diffwithgpu >> $k.log
-	#k=$(($k+1))
+    fi
+    if ! grep -q "Simulation Time" "$i/out.log"; then
+	echo -e "You may want to check $i"
     fi
 done

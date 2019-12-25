@@ -10,8 +10,7 @@ echo Time is `date`
 cd RUN_DIR
 echo Directory is `pwd`
 
-module load intel-16/compiler
-module load cuda-8.0/compiler-gpu
+moduleload
 
 # Run job
 

@@ -10,7 +10,8 @@ echo Time is `date`
 cd RUN_DIR
 echo Directory is `pwd`
 
-moduleload
+module swap gnu7/7.3.0 intel/2018
+module load cuda/10.0
 
 # Run job
 

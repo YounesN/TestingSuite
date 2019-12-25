@@ -5,8 +5,7 @@ cd GOMC
 echo -e "====  Making sure we are on master branch"
 git checkout development
 echo -e "====  Load CUDA and Intel modules"
-module load cuda-8.0/compiler-gpu
-module load intel-16/compiler
+moduleload
 echo -e "====  Compiling the code"
 ./metamake.sh
 cd ..

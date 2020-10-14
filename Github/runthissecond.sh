@@ -16,7 +16,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" serial.inp
 	sed -i "s#COMMAND#./GOMC_CPU_GCMC in.conf \&> out.log#g" serial.inp
-	qsub serial.inp
+	sbatch serial.inp
 	cd $root
     elif [[ "$i" =~ "GEMC" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_GEMC "$i"
@@ -25,7 +25,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" serial.inp
 	sed -i "s#COMMAND#./GOMC_CPU_GEMC in.conf \&> out.log#g" serial.inp
-	qsub serial.inp
+	sbatch serial.inp
 	cd $root
     elif [[ "$i" =~ "NVT" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_NVT "$i"
@@ -34,7 +34,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" serial.inp
 	sed -i "s#COMMAND#./GOMC_CPU_NVT in.conf \&> out.log#g" serial.inp
-	qsub serial.inp
+	sbatch serial.inp
 	cd $root
     elif [[ "$i" =~ "NPT" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_NPT "$i"
@@ -43,7 +43,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" serial.inp
 	sed -i "s#COMMAND#./GOMC_CPU_NPT in.conf \&> out.log#g" serial.inp
-	qsub serial.inp
+	sbatch serial.inp
 	cd $root
     else
 	echo -e "[ERROR] Couldn't detect the ensemble type."
@@ -71,7 +71,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" openmp.inp
 	sed -i "s#COMMAND#./GOMC_CPU_GCMC +p4 in.conf \&> out.log#g" openmp.inp
-	qsub openmp.inp
+	sbatch openmp.inp
 	cd $root
     elif [[ "$i" =~ "GEMC" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_GEMC "$i"
@@ -80,7 +80,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" openmp.inp
 	sed -i "s#COMMAND#./GOMC_CPU_GEMC +p4 in.conf \&> out.log#g" openmp.inp
-	qsub openmp.inp
+	sbatch openmp.inp
 	cd $root
     elif [[ "$i" =~ "NVT" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_NVT "$i"
@@ -89,7 +89,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" openmp.inp
 	sed -i "s#COMMAND#./GOMC_CPU_NVT +p4 in.conf \&> out.log#g" openmp.inp
-	qsub openmp.inp
+	sbatch openmp.inp
 	cd $root
     elif [[ "$i" =~ "NPT" ]]; then
 	cp ./GOMC/bin/GOMC_CPU_NPT "$i"
@@ -98,7 +98,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" openmp.inp
 	sed -i "s#COMMAND#./GOMC_CPU_NPT +p4 in.conf \&> out.log#g" openmp.inp
-	qsub openmp.inp
+	sbatch openmp.inp
 	cd $root
     else
 	echo -e "[ERROR] Couldn't detect the ensemble type."
@@ -126,7 +126,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" gpu.inp
 	sed -i "s#COMMAND#./GOMC_GPU_GCMC in.conf \&> out.log#g" gpu.inp
-	qsub gpu.inp
+	sbatch gpu.inp
 	cd $root
     elif [[ "$i" =~ "GEMC" ]]; then
 	cp ./GOMC/bin/GOMC_GPU_GEMC "$i"
@@ -135,7 +135,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" gpu.inp
 	sed -i "s#COMMAND#./GOMC_GPU_GEMC in.conf \&> out.log#g" gpu.inp
-	qsub gpu.inp
+	sbatch gpu.inp
 	cd $root
     elif [[ "$i" =~ "NVT" ]]; then
 	cp ./GOMC/bin/GOMC_GPU_NVT "$i"
@@ -144,7 +144,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" gpu.inp
 	sed -i "s#COMMAND#./GOMC_GPU_NVT in.conf \&> out.log#g" gpu.inp
-	qsub gpu.inp
+	sbatch gpu.inp
 	cd $root
     elif [[ "$i" =~ "NPT" ]]; then
 	cp ./GOMC/bin/GOMC_GPU_NPT "$i"
@@ -153,7 +153,7 @@ do
 	cd $i
 	sed -i "s#RUN_DIR#$(pwd)#g" gpu.inp
 	sed -i "s#COMMAND#./GOMC_GPU_NPT in.conf \&> out.log#g" gpu.inp
-	qsub gpu.inp
+	sbatch gpu.inp
 	cd $root
     else
 	echo -e "[ERROR] Couldn't detect the ensemble type."

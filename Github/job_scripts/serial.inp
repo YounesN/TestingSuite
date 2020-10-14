@@ -1,8 +1,14 @@
-#PBS -q wsuq
-#PBS -l select=1:ncpus=1:mem=8gb
-#PBS -j oe
-#PBS -m abe
-#PBS -M fe1855@wayne.edu
+#!/bin/bash
+#SBATCH --job-name Serial
+#SBATCH -q secondary
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH --mem=16G
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=fe1855@wayne.edu
+#SBATCH -o output_%j.out
+#SBATCH -e errors_%j.err
+#SBATCH -t 1-0:0:0
 
 echo Running on host `hostname`
 echo Time is `date`
@@ -10,8 +16,8 @@ echo Time is `date`
 cd RUN_DIR
 echo Directory is `pwd`
 
-module swap gnu7/7.3.0 intel/2018
-module load cuda/10.0
+module swap gnu7/7.3.0 intel/2019
+module load cuda/11.0
 
 # Run job
 
